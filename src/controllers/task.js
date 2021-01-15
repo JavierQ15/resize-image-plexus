@@ -8,6 +8,8 @@ const md5 = require("crypto-js/md5");
 //JSON to storage the information
 const TasksPath = path.resolve("./src/Tasks.json");
 let Tasks = JSON.parse(fs.readFileSync(TasksPath));
+const ImagesPath = path.resolve("./src/Images.json");
+let Images = JSON.parse(fs.readFileSync(ImagesPath));
 module.exports = {
     processImage: (req, res) => {
         const file = req.file;
@@ -15,6 +17,7 @@ module.exports = {
             return res
                 .status(400)
                 .send({ status: "error", message: "We have not received any images" });
+        if(Images[file.originalname]) return res.status(409).send({status:"error",message:"An image with the same name has already been processed"})
         //Generate random taskId
         const taskId =
             Math.random().toString(36).substr(2, 9) +
@@ -28,16 +31,27 @@ module.exports = {
             800: "imcomplete",
             path: `./images/original/${filename}.${file.originalname.replace(/^.*[.]/, "")}`,
         };
+        let newImages = {
+            date: Date.now(),
+            pathOriginal: `./images/original/${filename}.${file.originalname.replace(/^.*[.]/, "")}`,
+            path800: `./images/output/${filename}/800/${md5(
+                filename + "_800"
+            )}.${file.originalname.replace(/^.*[.]/, "")}`,
+            path1024:`./images/output/${filename}/1024/${md5(
+                filename + "_1024"
+            )}.${file.originalname.replace(/^.*[.]/, "")}`,
+            taskId
+        }
         Tasks = { ...Tasks, [taskId]: newTasks };
         fs.writeFileSync(TasksPath, JSON.stringify(Tasks, null, 4));
+        Images = { ...Images, [file.originalname]: newImages };
+        fs.writeFileSync(ImagesPath, JSON.stringify(Images, null, 4));
         const imageBuffer = fs.readFileSync(file.path);
         sharp(imageBuffer)
             .resize({ width: 1024 })
             .toFile(
                 path.resolve(
-                    `./images/output/${filename}/1024/${md5(
-                        filename + "_1024"
-                    )}.${file.originalname.replace(/^.*[.]/, "")}`
+                    newImages.path1024
                 )
             )
             .then(() => {
@@ -49,9 +63,7 @@ module.exports = {
                     .resize({ width: 800 })
                     .toFile(
                         path.resolve(
-                            `./images/output/${filename}/800/${md5(
-                                filename + "_800"
-                            )}.${file.originalname.replace(/^.*[.]/, "")}`
+                            newImages.path800
                         )
                     )
                     .then(() => {
