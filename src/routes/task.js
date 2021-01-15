@@ -39,5 +39,5 @@ const api = express.Router();
 const taskCtrl = require("../controllers/task");
 
 api.post("", upload.single("original"), taskCtrl.processImage);
-
+api.get('/:taskId',taskCtrl.getStatus)
 module.exports = api;
