@@ -26,9 +26,7 @@ module.exports = {
             date: Date.now(),
             1024: "imcomplete",
             800: "imcomplete",
-            path: `./images/output/${filename}/800/${md5(
-                filename + "_800"
-            )}.${file.originalname.replace(/^.*[.]/, "")}`,
+            path: `./images/original/${filename}.${file.originalname.replace(/^.*[.]/, "")}`,
         };
         Tasks = { ...Tasks, [taskId]: newTasks };
         fs.writeFileSync(TasksPath, JSON.stringify(Tasks, null, 4));
