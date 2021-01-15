@@ -7,7 +7,7 @@ const fs = require("fs");
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const pathWhereSave = path.resolve("./images/original/");
-    //Genera las carpetas necesarias
+    //Generate the necessary folders
     fs.mkdirSync(pathWhereSave, { recursive: true });
     fs.mkdirSync(
       path.resolve(
@@ -29,8 +29,6 @@ const storage = multer.diskStorage({
     );
     cb(null, pathWhereSave);
   },
-
-  // By default, multer removes file extensions so let's add them back
   filename: function (req, file, cb) {
     cb(null, `${file.originalname}`);
   },
