@@ -83,6 +83,6 @@ module.exports = {
             return res
                 .status(400)
                 .send({ status: "error", message: "We have not found any task with that ID" });
-        return res.send({task});
+        return res.send({status: "success",task});
     }
 };
