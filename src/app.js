@@ -30,6 +30,5 @@ app.use((req, res, next) => {
 // Add prefixes to routes / load routes
 app.use("/task", taskRoutes);
 
-
 // Export module
 module.exports = app;
