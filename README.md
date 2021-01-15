@@ -9,6 +9,7 @@ Prueba de acceso a Plexus.
 El patrón de arquitectura seguida en el diseño es Modelo–vista–controlador.
 En *./src/* encotramos el código de la API.
 Dicho proyecto tiene eslint y standard version para un manejo mas rápido del versionado y bug-fixes.
+
 ---
 ## API REST
 
