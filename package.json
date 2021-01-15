@@ -1,11 +1,11 @@
 {
   "name": "resizeimg",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Resize images for responsive design",
   "main": "src/index.js",
   "private": false,
   "scripts": {
-    "start":"node src/index.js",
+    "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "git add . && npx cz && git push --follow-tags origin main",
