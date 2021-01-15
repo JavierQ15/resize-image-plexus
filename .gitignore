@@ -3,3 +3,5 @@
 # dependencies
 /node_modules
 /images
+src/Images.json 
+src/Tasks.json
